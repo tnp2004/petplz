@@ -1,7 +1,11 @@
 package repository
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 type Account struct {
-	AccountID  string
+	AccountID  primitive.ObjectID `bson:"_id"`
+	Email      string
+	Password   string
 	Name       string
 	Gender     string
 	Age        int

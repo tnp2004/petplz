@@ -29,7 +29,16 @@ func main() {
 	}()
 
 	accountRepositoryDb := repository.NewAccountRepositoryDB(dbClient)
-	accountRepositoryDb.GetAccount("64b91d161ee24217a99b9d60")
+	// accountRepositoryDb.GetAccount("64b92d1282735f7ff4cdb034")
+	accountRepositoryDb.Create(repository.Account{
+		Email:     "Jamelnwza007@gmail.com",
+		Password:  "jamePassword123",
+		Name:      "Jame",
+		Gender:    "Male",
+		Age:       27,
+		Money:     15000,
+		Image_uri: "catimage",
+	})
 
 	app := fiber.New()
 

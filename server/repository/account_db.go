@@ -36,6 +36,7 @@ func (r accountRepositoryDB) Create(account Account) (*Account, error) {
 
 	return nil, nil
 }
+
 func (r accountRepositoryDB) GetAccount(id string) (*Account, error) {
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -43,21 +44,26 @@ func (r accountRepositoryDB) GetAccount(id string) (*Account, error) {
 	}
 
 	coll := r.db.Database("Renter").Collection("Account")
-	var result bson.M
+	var result Account
 	err = coll.FindOne(context.TODO(), bson.D{{Key: "_id", Value: objectId}}).Decode(&result)
 	if err == mongo.ErrNoDocuments {
 		fmt.Printf("No document was found with the id %s\n", id)
 		return nil, err
 	}
 	if err != nil {
-		fmt.Println("hi")
-		panic(err)
+		return nil, err
 	}
-	accountData, err := json.MarshalIndent(result, "", "    ")
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%s\n", accountData)
 
-	return nil, nil
+	accByte, err := json.MarshalIndent(result, "", "    ")
+	if err != nil {
+		return nil, err
+	}
+
+	var account *Account
+	err = json.Unmarshal(accByte, &account)
+	if err != nil {
+		return nil, err
+	}
+
+	return account, nil
 }

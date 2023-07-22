@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
+	"github.com/tnp2004/Renter/handler"
 	"github.com/tnp2004/Renter/repository"
 	"github.com/tnp2004/Renter/service"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -30,18 +30,9 @@ func main() {
 		}
 	}()
 
-	accountRepositoryDb := repository.NewAccountRepositoryDB(dbClient)
-	accountService := service.NewAccountService(accountRepositoryDb)
-	// accountRepositoryDb.GetAccount("64b92d1282735f7ff4cdb034")
-	// accountRepositoryDb.Create(repository.Account{
-	// 	Email:     "Jamelnwza007@gmail.com",
-	// 	Password:  "jamePassword123",
-	// 	Name:      "Jame",
-	// 	Gender:    "Male",
-	// 	Age:       27,
-	// 	Money:     15000,
-	// 	Image_uri: "catimage",
-	// })
+	accountRepositoryDB := repository.NewAccountRepositoryDB(dbClient)
+	accountService := service.NewAccountService(accountRepositoryDB)
+	accountHandler := handler.NewAccoutHandler(accountService)
 
 	app := fiber.New()
 
@@ -49,16 +40,8 @@ func main() {
 		return c.SendString("hi there!")
 	})
 
-	app.Get("/:id", func(c *fiber.Ctx) error {
-		id := c.Params("id")
-		account, err := accountService.GetUserAccount(id)
-		if err != nil {
-			return c.JSON(err)
-		}
-		fmt.Println(account)
-
-		return c.JSON(account)
-	})
+	app.Get("/:id", accountHandler.GetAccount)
+	app.Post("/create", accountHandler.CreateAccount)
 
 	app.Listen(":3000")
 }

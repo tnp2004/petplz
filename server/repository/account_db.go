@@ -19,7 +19,7 @@ func NewAccountRepositoryDB(db *mongo.Client) AccountRepository {
 	return accountRepositoryDB{db}
 }
 
-func (r accountRepositoryDB) Create(account Account) (*Account, error) {
+func (r accountRepositoryDB) Create(account Account) error {
 
 	coll := r.db.Database("Renter").Collection("Account")
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
@@ -28,13 +28,12 @@ func (r accountRepositoryDB) Create(account Account) (*Account, error) {
 	account.AccountID = primitive.NewObjectID()
 	account.Created_at = time.Now().Format("2006-01-02T15:04:05Z07:00")
 
-	result, err := coll.InsertOne(ctx, account)
+	_, err := coll.InsertOne(ctx, account)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
-	fmt.Println(result.InsertedID)
 
-	return nil, nil
+	return nil
 }
 
 func (r accountRepositoryDB) GetAccount(id string) (*Account, error) {

@@ -1,7 +1,10 @@
 package service
 
 import (
+	"time"
+
 	"github.com/tnp2004/Renter/repository"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type accountService struct {
@@ -12,8 +15,25 @@ func NewAccountService(accountRepo repository.AccountRepository) AccountService 
 	return accountService{accountRepo}
 }
 
-func (s accountService) NewAccount(account NewAccount) (*AccountResponse, error) {
-	return nil, nil
+func (s accountService) NewAccount(accountRegister NewAccount) error {
+	accountReg := repository.Account{
+		AccountID:  primitive.NewObjectID(),
+		Email:      accountRegister.Email,
+		Password:   accountRegister.Password,
+		Name:       accountRegister.Name,
+		Gender:     accountRegister.Gender,
+		Age:        accountRegister.Age,
+		Money:      accountRegister.Money,
+		Image_uri:  accountRegister.Image_uri,
+		Created_at: time.Now().Format("2006-01-02T15:04:05Z07:00"),
+	}
+
+	err := s.accountRepo.Create(accountReg)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 func (s accountService) GetUserAccount(id string) (*AccountResponse, error) {
 	account, err := s.accountRepo.GetAccount(id)

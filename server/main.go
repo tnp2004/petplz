@@ -7,9 +7,9 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
-	"github.com/tnp2004/Renter/handler"
-	"github.com/tnp2004/Renter/repository"
-	"github.com/tnp2004/Renter/service"
+	"github.com/tnp2004/petplz/handler"
+	"github.com/tnp2004/petplz/repository"
+	"github.com/tnp2004/petplz/service"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -36,10 +36,7 @@ func main() {
 
 	app := fiber.New()
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("hi there!")
-	})
-
+	app.Get("/", accountHandler.Greeting)
 	app.Get("/:id", accountHandler.GetAccount)
 	app.Post("/create", accountHandler.CreateAccount)
 

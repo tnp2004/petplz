@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/tnp2004/Renter/service"
+	"github.com/tnp2004/petplz/service"
 )
 
 type accountHandler struct {
@@ -11,6 +11,10 @@ type accountHandler struct {
 
 func NewAccoutHandler(accountService service.AccountService) accountHandler {
 	return accountHandler{accountService}
+}
+
+func (h accountHandler) Greeting(c *fiber.Ctx) error {
+	return c.SendString("hi there!")
 }
 
 func (h accountHandler) GetAccount(c *fiber.Ctx) error {

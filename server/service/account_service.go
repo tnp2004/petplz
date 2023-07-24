@@ -3,7 +3,7 @@ package service
 import (
 	"time"
 
-	"github.com/tnp2004/Renter/repository"
+	"github.com/tnp2004/petplz/repository"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

@@ -16,6 +16,7 @@ type Account struct {
 }
 
 type AccountRepository interface {
-	Create(Account) error
+	Register(Account) error
+	Login(email, password string) error
 	GetAccount(id string) (*Account, error)
 }

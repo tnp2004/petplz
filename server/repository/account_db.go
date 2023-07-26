@@ -19,7 +19,7 @@ func NewAccountRepositoryDB(db *mongo.Client) AccountRepository {
 	return accountRepositoryDB{db}
 }
 
-func (r accountRepositoryDB) Create(account Account) error {
+func (r accountRepositoryDB) Register(account Account) error {
 
 	coll := r.db.Database("Renter").Collection("Account")
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)

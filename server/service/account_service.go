@@ -5,6 +5,7 @@ import (
 
 	"github.com/tnp2004/petplz/repository"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type accountService struct {
@@ -16,11 +17,17 @@ func NewAccountService(accountRepo repository.AccountRepository) AccountService 
 }
 
 func (s accountService) NewAccount(accountRegister NewAccount) error {
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(accountRegister.Password), 12)
+	if err != nil {
+		return err
+	}
+
 	accountReg := repository.Account{
 		AccountID:  primitive.NewObjectID(),
 		Username:   accountRegister.Username,
 		Email:      accountRegister.Email,
-		Password:   accountRegister.Password,
+		Password:   string(hashedPassword),
 		Name:       accountRegister.Name,
 		Gender:     accountRegister.Gender,
 		Age:        accountRegister.Age,
@@ -29,13 +36,14 @@ func (s accountService) NewAccount(accountRegister NewAccount) error {
 		Created_at: time.Now().Format("2006-01-02T15:04:05Z07:00"),
 	}
 
-	err := s.accountRepo.Create(accountReg)
+	err = s.accountRepo.Register(accountReg)
 	if err != nil {
 		return err
 	}
 
 	return nil
 }
+
 func (s accountService) GetUserAccount(id string) (*AccountResponse, error) {
 	account, err := s.accountRepo.GetAccount(id)
 	if err != nil {

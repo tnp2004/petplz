@@ -1,11 +1,13 @@
 <script lang="ts">
     type Gender = "male" | "female" | "other";
 
+    let username: string;
     let email: string;
     let password: string;
     let confirmPassword: string;
     let age: string;
 	let gender: Gender;
+	
 </script>
 
 <div class="flex h-screen">
@@ -13,6 +15,10 @@
 		<h1 class="text-2xl font-bold">Sign up</h1>
 		<div class="my-5">
 			<div class="my-2 w-72">
+                <label for="username">
+                    username
+                    <input bind:value={username} class="border-2 rounded-sm w-full px-1 my-2 h-9" type="text" />
+                </label>
                 <label for="email">
                     Email
                     <input bind:value={email} class="border-2 rounded-sm w-full px-1 my-2 h-9" type="text" />

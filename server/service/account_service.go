@@ -18,6 +18,7 @@ func NewAccountService(accountRepo repository.AccountRepository) AccountService 
 func (s accountService) NewAccount(accountRegister NewAccount) error {
 	accountReg := repository.Account{
 		AccountID:  primitive.NewObjectID(),
+		Username:   accountRegister.Username,
 		Email:      accountRegister.Email,
 		Password:   accountRegister.Password,
 		Name:       accountRegister.Name,
@@ -43,6 +44,7 @@ func (s accountService) GetUserAccount(id string) (*AccountResponse, error) {
 
 	accountRes := AccountResponse{
 		AccountID: account.AccountID,
+		Username:  account.Username,
 		Email:     account.Email,
 		Name:      account.Name,
 		Gender:    account.Gender,

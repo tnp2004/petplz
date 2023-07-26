@@ -4,6 +4,7 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type Account struct {
 	AccountID  primitive.ObjectID `bson:"_id"`
+	Username   string
 	Email      string
 	Password   string
 	Name       string

@@ -24,7 +24,13 @@ type AccountResponse struct {
 	Image_uri string             `json:"image_uri"`
 }
 
+type LoginRequired struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type AccountService interface {
 	NewAccount(NewAccount) error
+	Login(email, password string) error
 	GetUserAccount(id string) (*AccountResponse, error)
 }

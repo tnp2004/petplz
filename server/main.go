@@ -39,6 +39,7 @@ func main() {
 	app.Get("/", accountHandler.Greeting)
 	app.Get("/:id", accountHandler.GetAccount)
 	app.Post("/create", accountHandler.CreateAccount)
+	app.Post("/login", accountHandler.Login)
 
 	app.Listen(":3000")
 }

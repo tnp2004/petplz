@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	"github.com/tnp2004/petplz/handler"
 	"github.com/tnp2004/petplz/repository"
@@ -35,6 +36,9 @@ func main() {
 	accountHandler := handler.NewAccoutHandler(accountService)
 
 	app := fiber.New()
+	app.Use(cors.New(cors.Config{
+		AllowCredentials: true,
+	}))
 
 	app.Get("/", accountHandler.Greeting)
 	app.Get("/:id", accountHandler.GetAccount)

@@ -17,6 +17,6 @@ type Account struct {
 
 type AccountRepository interface {
 	Register(Account) error
-	Login(email, password string) error
+	Login(email, password string) (*Account, error)
 	GetAccount(id string) (*Account, error)
 }

@@ -25,7 +25,7 @@ func (h accountHandler) Login(c *fiber.Ctx) error {
 
 	// JWT
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
-		Issuer:    account.AccountID.String(),
+		Issuer:    account.AccountID.Hex(),
 		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)), // 1 day
 	})
 
@@ -44,4 +44,40 @@ func (h accountHandler) Login(c *fiber.Ctx) error {
 	c.Cookie(&cookie)
 
 	return c.JSON(account)
+}
+
+func (h accountHandler) Logout(c *fiber.Ctx) error {
+	cookie := fiber.Cookie{
+		Name:     "jwt",
+		Value:    "",
+		Expires:  time.Now().Add(-time.Hour),
+		HTTPOnly: true,
+	}
+
+	c.Cookie(&cookie)
+
+	return c.JSON(fiber.Map{
+		"message": "logout successfully",
+	})
+}
+
+func (h accountHandler) LoginAuth(c *fiber.Ctx) error {
+	cookie := c.Cookies("jwt")
+
+	token, err := jwt.ParseWithClaims(cookie, &jwt.RegisteredClaims{}, func(t *jwt.Token) (interface{}, error) {
+		return []byte(SecretKey), nil
+	})
+	if err != nil {
+		// not login
+		return err
+	}
+
+	claims := token.Claims.(*jwt.RegisteredClaims)
+
+	_, err = h.accountService.GetUserAccount(claims.Issuer)
+	if err != nil {
+		return err
+	}
+
+	return c.Next()
 }

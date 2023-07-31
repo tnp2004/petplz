@@ -43,8 +43,8 @@ func main() {
 
 	app.Get("/", accountHandler.Greeting)
 
-	app.Get("/:id", accountHandler.GetAccount)
-	app.Post("/create", accountHandler.CreateAccount)
+	app.Post("/accounts/create", accountHandler.CreateAccount)
+	app.Get("/accounts/:id", accountHandler.GetAccount)
 
 	app.Post("/login", accountHandler.Login)
 	app.Post("/logout", accountHandler.Logout)

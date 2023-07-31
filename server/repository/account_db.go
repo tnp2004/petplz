@@ -39,15 +39,14 @@ func (r accountRepositoryDB) Register(account Account) error {
 func (r accountRepositoryDB) GetAccount(id string) (*Account, error) {
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		fmt.Println(err)
+		return nil, fmt.Errorf("id:%s invalid format", id)
 	}
 
 	coll := r.db.Database("Renter").Collection("Account")
 	var result Account
 	err = coll.FindOne(context.TODO(), bson.D{{Key: "_id", Value: objectId}}).Decode(&result)
 	if err == mongo.ErrNoDocuments {
-		fmt.Printf("No document was found with the id %s\n", id)
-		return nil, err
+		return nil, fmt.Errorf("account id:%s doesn't exist", id)
 	}
 	if err != nil {
 		return nil, err

@@ -21,7 +21,9 @@ func (h accountHandler) GetAccount(c *fiber.Ctx) error {
 	id := c.Params("id")
 	account, err := h.accountService.GetUserAccount(id)
 	if err != nil {
-		return c.JSON(err)
+		return c.JSON(fiber.Map{
+			"message": err.Error(),
+		})
 	}
 
 	return c.JSON(account)

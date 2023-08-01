@@ -1,9 +1,21 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+
 	let email: string;
 	let password: string;
 
 	const submit = async () => {
-		await fetch("http://localhost:3000/api/login")
+		await fetch("http://localhost:3000/api/login", {
+			method: "POST",
+			headers: {'Content-Type': 'application/json'},
+			credentials: "include",
+			body: JSON.stringify({
+				email,
+				password,
+			})
+		})
+
+		await goto("/")
 	}
 </script>
 
@@ -26,7 +38,7 @@
 			<button class="font-bold w-full btn btn-success rounded">SIGN IN</button>
 		</div>
 		<div class="text-center">
-			<a class="text-slate-700/50" href="/signup">don't have an account ?</a>
+			<a class="text-slate-700/50" href="/register">don't have an account ?</a>
 		</div>
 	</form>
 </div>

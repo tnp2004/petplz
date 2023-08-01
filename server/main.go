@@ -38,6 +38,8 @@ func main() {
 
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "http://localhost:5173",
+		AllowHeaders:     "Origin, Content-Type, Accept",
 		AllowCredentials: true,
 	}))
 
@@ -45,12 +47,12 @@ func main() {
 
 	api.Get("/", accountHandler.Greeting)
 
+	api.Get("/accounts", accountHandler.LoginAuth)
 	api.Post("/accounts/register", accountHandler.CreateAccount)
 	api.Get("/accounts/:id", accountHandler.GetAccount)
 
 	api.Post("/login", accountHandler.Login)
 	api.Post("/logout", accountHandler.Logout)
-	api.Post("/test/greet", accountHandler.LoginAuth, accountHandler.Greeting)
 
 	app.Listen(":3000")
 }

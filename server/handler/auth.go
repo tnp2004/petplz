@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"net/http"
 	"os"
 	"time"
 
@@ -69,15 +70,20 @@ func (h accountHandler) LoginAuth(c *fiber.Ctx) error {
 	})
 	if err != nil {
 		// not login
-		return err
+		c.Status(http.StatusUnauthorized)
+		return c.JSON(fiber.Map{
+			"message": "unauthenticated",
+		})
 	}
 
 	claims := token.Claims.(*jwt.RegisteredClaims)
 
-	_, err = h.accountService.GetUserAccount(claims.Issuer)
+	account, err := h.accountService.GetUserAccount(claims.Issuer)
 	if err != nil {
-		return err
+		return c.JSON(fiber.Map{
+			"message": "something went wrong",
+		})
 	}
 
-	return c.Next()
+	return c.JSON(account)
 }

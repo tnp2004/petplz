@@ -7,7 +7,6 @@ type Account struct {
 	Username   string
 	Email      string
 	Password   string
-	Name       string
 	Gender     string
 	Age        int
 	Money      int

@@ -10,7 +10,6 @@ func (s accountService) Login(email, password string) (*AccountResponse, error) 
 		AccountID: account.AccountID,
 		Username:  account.Username,
 		Email:     account.Email,
-		Name:      account.Name,
 		Gender:    account.Gender,
 		Age:       account.Age,
 		Money:     account.Money,

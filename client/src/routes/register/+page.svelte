@@ -1,15 +1,33 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+
 	type Gender = 'male' | 'female' | 'other';
 
 	let username: string;
 	let email: string;
 	let password: string;
 	let confirmPassword: string;
-	let age: string;
+	let age: number;
 	let gender: Gender;
 
+	const comparePassword = (): boolean => {
+		return password === confirmPassword
+	}
+
 	const submit = async () => {
-		await fetch("http://localhost:3000/api/login")
+		await fetch("http://localhost:3000/api/accounts/register", {
+			method: "POST",
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				username,
+				email,
+				password,
+				gender,
+				age,
+			})
+		})
+
+		await goto("/login")
 	}
 </script>
 
@@ -50,7 +68,7 @@
 				</label>
 				<label for="age">
 					Age
-					<input bind:value={age} class="border-2 rounded-sm w-full my-2 px-1 h-9" type="text" />
+					<input bind:value={age} class="border-2 rounded-sm w-full my-2 px-1 h-9" type="number" />
 				</label>
 				<div class="flex gap-2 my-2 justify-between">
 					<button
@@ -91,10 +109,10 @@
 					</button>
 				</div>
 			</div>
-			<button class="font-bold w-full btn btn-success rounded">SIGN UP</button>
+			<button type="submit" class="font-bold w-full btn btn-success rounded">SIGN UP</button>
 		</div>
 		<div class="text-center text-slate-400">
-			<a class="text-slate-700/50" href="/signin">already have an account ?</a>
+			<a class="text-slate-700/50" href="/login">already have an account ?</a>
 		</div>
 	</form>
 </div>

@@ -41,14 +41,16 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	app.Get("/", accountHandler.Greeting)
+	api := app.Group("/api")
 
-	app.Post("/accounts/create", accountHandler.CreateAccount)
-	app.Get("/accounts/:id", accountHandler.GetAccount)
+	api.Get("/", accountHandler.Greeting)
 
-	app.Post("/login", accountHandler.Login)
-	app.Post("/logout", accountHandler.Logout)
-	app.Post("/test/greet", accountHandler.LoginAuth, accountHandler.Greeting)
+	api.Post("/accounts/register", accountHandler.CreateAccount)
+	api.Get("/accounts/:id", accountHandler.GetAccount)
+
+	api.Post("/login", accountHandler.Login)
+	api.Post("/logout", accountHandler.Logout)
+	api.Post("/test/greet", accountHandler.LoginAuth, accountHandler.Greeting)
 
 	app.Listen(":3000")
 }

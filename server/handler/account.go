@@ -36,7 +36,7 @@ func (h accountHandler) CreateAccount(c *fiber.Ctx) error {
 		return c.JSON(err)
 	}
 
-	err := h.accountService.NewAccount(account)
+	err := h.accountService.Register(account)
 	if err != nil {
 		return c.JSON(err)
 	}

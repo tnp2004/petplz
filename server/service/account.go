@@ -30,7 +30,7 @@ type LoginRequired struct {
 }
 
 type AccountService interface {
-	NewAccount(NewAccount) error
+	Register(NewAccount) error
 	Login(email, password string) (*AccountResponse, error)
 	GetUserAccount(id string) (*AccountResponse, error)
 }

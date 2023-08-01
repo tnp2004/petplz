@@ -16,7 +16,7 @@ func NewAccountService(accountRepo repository.AccountRepository) AccountService 
 	return accountService{accountRepo}
 }
 
-func (s accountService) NewAccount(accountRegister NewAccount) error {
+func (s accountService) Register(accountRegister NewAccount) error {
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(accountRegister.Password), 12)
 	if err != nil {

@@ -11,15 +11,14 @@
 			});
 
             const resOkay = response.ok
+            authenticated.set(resOkay);
             if (resOkay) {
-                const content = await response.json();
-                authenticated.set(true);
-                message = `Hi, ${content.username}`;
+                const data = await response.json();
+                message = `Hi, ${data.username}`;
                 return
             }
             message = "you are not logged in"
             
-            authenticated.set(resOkay);
 
 	});
 </script>

@@ -2,13 +2,14 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { authenticated } from '../stores/auth';
+	import { PUBLIC_SERVER_URL } from '$env/static/public';
 
 	let image: string;
 	let auth: boolean;
 	authenticated.subscribe((isAuth) => (auth = isAuth));
 
 	onMount(async () => {
-		const response = await fetch('http://localhost:3000/api/accounts', {
+		const response = await fetch(`${PUBLIC_SERVER_URL}/api/accounts`, {
 			headers: { 'Content-Type': 'application/json' },
 			credentials: 'include'
 		});

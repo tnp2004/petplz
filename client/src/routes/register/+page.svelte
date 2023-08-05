@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { PUBLIC_SERVER_URL } from '$env/static/public';
 
 	let username: string;
 	let email: string;
@@ -29,7 +30,7 @@
 	const submit = async () => {
 		const canSubmit = !usernameErr && !emailErr && !passwordErr && !ageErr && !genderErr;
 		if (canSubmit) {
-			await fetch('http://localhost:3000/api/accounts/register', {
+			await fetch(`${PUBLIC_SERVER_URL}/api/accounts/register`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({

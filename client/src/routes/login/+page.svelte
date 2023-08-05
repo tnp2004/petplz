@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
+	import { PUBLIC_SERVER_URL } from "$env/static/public";
 
 	let email: string;
 	let password: string;
 
 	const submit = async () => {
-		await fetch("http://localhost:3000/api/login", {
+		await fetch(`${PUBLIC_SERVER_URL}/api/login`, {
 			method: "POST",
 			headers: {'Content-Type': 'application/json'},
 			credentials: "include",

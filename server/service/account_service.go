@@ -31,7 +31,7 @@ func (s accountService) Register(accountRegister NewAccount) error {
 		Gender:     accountRegister.Gender,
 		Age:        accountRegister.Age,
 		Money:      0,
-		Image_uri:  accountRegister.Image_uri,
+		Image_uri:  "https://static.printler.com/cache/0/8/1/1/8/c/08118cb095d702b52289a030f9ba1188e345c33b.jpg",
 		Created_at: time.Now().Format("2006-01-02T15:04:05Z07:00"),
 	}
 

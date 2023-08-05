@@ -31,12 +31,13 @@
 
 {#if accountData}
 	<div class="w-fit px-5 mx-auto my-10">
-        <div class="text-xl my-20 w-56">
+        <div class="text-xl my-20">
             <div class="text-center my-3">
                 <label class="font-bold text-4xl" for="profile">Profile</label>
             </div>
-            <div class="my-3">
-                <img class="rounded-full" src={accountData.image_uri} alt="profile-image" />
+            <div class="mx-auto my-3 w-64 h-64 rounded-full overflow-hidden">
+                <!-- svelte-ignore a11y-img-redundant-alt -->
+                <img src={accountData.image_uri} alt="profile-image" />
             </div>
             <div class="flex justify-between">
                 <label class="font-bold w-1/2" for="username">Username</label>

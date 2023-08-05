@@ -1,9 +1,24 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 	import { authenticated } from '../stores/auth';
 
+	let image: string;
 	let auth: boolean;
 	authenticated.subscribe((isAuth) => (auth = isAuth));
+
+	onMount(async () => {
+		const response = await fetch('http://localhost:3000/api/accounts', {
+			headers: { 'Content-Type': 'application/json' },
+			credentials: 'include'
+		});
+
+		if (response.ok) {
+			const data = await response.json();
+			console.log(data)
+			image = data.image_uri
+		}
+	});
 
 	const logout = async () => {
 		await fetch('http://localhost:3000/api/logout', {
@@ -68,7 +83,7 @@
 				<label tabIndex="0" for="account" class="btn btn-ghost btn-circle avatar">
 					<div class="w-10 rounded-full">
 						<img alt="user-icon"
-							src="https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*"
+							src={image}
 						/>
 					</div>
 				</label>

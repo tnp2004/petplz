@@ -30,4 +30,6 @@ type AccountService interface {
 	Register(NewAccount) error
 	Login(email, password string) (*AccountResponse, error)
 	GetUserAccount(id string) (*AccountResponse, error)
+	ValidateEmail(string) error
+	ValidateUsername(string) error
 }

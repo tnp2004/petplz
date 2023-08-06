@@ -18,4 +18,6 @@ type AccountRepository interface {
 	Register(Account) error
 	Login(email, password string) (*Account, error)
 	GetAccount(id string) (*Account, error)
+	EmailVerification(email string) error
+	UsernameVerification(username string) error
 }

@@ -61,3 +61,19 @@ func (s accountService) GetUserAccount(id string) (*AccountResponse, error) {
 
 	return &accountRes, nil
 }
+
+func (s accountService) ValidateEmail(email string) error {
+	if err := s.accountRepo.EmailVerification(email); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s accountService) ValidateUsername(username string) error {
+	if err := s.accountRepo.UsernameVerification(username); err != nil {
+		return err
+	}
+
+	return nil
+}

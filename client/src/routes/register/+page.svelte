@@ -1,6 +1,10 @@
+<svelte:head>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</svelte:head>
+
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { PUBLIC_SERVER_URL } from '$env/static/public';
+	import { PUBLIC_RECAPTCHA_SITE_KEY, PUBLIC_SERVER_URL } from '$env/static/public';
 
 	let username: string;
 	let email: string;
@@ -169,6 +173,7 @@
 					</button>
 				</div>
 			</div>
+			<div class="g-recaptcha my-2 h-20" data-sitekey={PUBLIC_RECAPTCHA_SITE_KEY}></div>
 			<button type="submit" class="font-bold w-full btn btn-success rounded">SIGN UP</button>
 		</div>
 		<div class="text-center text-slate-400">

@@ -2,16 +2,7 @@
 	import { onMount } from 'svelte';
 	import { authenticated } from '../../../stores/auth';
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
-
-	interface Account {
-		accountId: string;
-		username: string;
-		email: string;
-		gender: 'male' | 'female' | 'other';
-		age: number;
-		money: number;
-		image_uri: string;
-	}
+	import type { Account } from '../../../../interfaces';
 
 	let accountData: Account;
 

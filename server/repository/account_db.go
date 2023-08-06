@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"time"
 
@@ -21,7 +22,7 @@ func NewAccountRepositoryDB(db *mongo.Client) AccountRepository {
 
 func (r accountRepositoryDB) Register(account Account) error {
 
-	coll := r.db.Database("Renter").Collection("Account")
+	coll := r.db.Database("Petplz").Collection("Account")
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
@@ -42,7 +43,7 @@ func (r accountRepositoryDB) GetAccount(id string) (*Account, error) {
 		return nil, fmt.Errorf("id:%s invalid format", id)
 	}
 
-	coll := r.db.Database("Renter").Collection("Account")
+	coll := r.db.Database("Petplz").Collection("Account")
 	var result Account
 	err = coll.FindOne(context.TODO(), bson.D{{Key: "_id", Value: objectId}}).Decode(&result)
 	if err == mongo.ErrNoDocuments {
@@ -64,4 +65,34 @@ func (r accountRepositoryDB) GetAccount(id string) (*Account, error) {
 	}
 
 	return account, nil
+}
+
+func (r accountRepositoryDB) EmailVerification(email string) error {
+	coll := r.db.Database("Petplz").Collection("Account")
+	var result bson.M
+	err := coll.FindOne(context.TODO(), bson.D{{Key: "email", Value: email}}).Decode(&result)
+	if err == mongo.ErrNoDocuments {
+		// email is unused
+		return nil
+	}
+	if err != nil {
+		return err
+	}
+
+	return errors.New("something went wrong")
+}
+
+func (r accountRepositoryDB) UsernameVerification(username string) error {
+	coll := r.db.Database("Petplz").Collection("Account")
+	var result bson.M
+	err := coll.FindOne(context.TODO(), bson.D{{Key: "username", Value: username}}).Decode(&result)
+	if err == mongo.ErrNoDocuments {
+		// username is unused
+		return nil
+	}
+	if err != nil {
+		return err
+	}
+
+	return errors.New("something went wrong")
 }

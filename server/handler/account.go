@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/tnp2004/petplz/service"
 )
@@ -43,5 +45,39 @@ func (h accountHandler) CreateAccount(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{
 		"message": "your account has been created",
+	})
+}
+
+func (h accountHandler) ValidateRegisterForm(c *fiber.Ctx) error {
+	value := c.Queries()
+
+	if value["email"] != "" {
+		if err := h.accountService.ValidateEmail(value["email"]); err != nil {
+			c.Status(http.StatusConflict)
+			return c.JSON(fiber.Map{
+				"message": "email is used",
+			})
+		}
+
+		return c.JSON(fiber.Map{
+			"message": "email is unused",
+		})
+
+	} else if value["username"] != "" {
+		if err := h.accountService.ValidateUsername(value["username"]); err != nil {
+			c.Status(http.StatusConflict)
+			return c.JSON(fiber.Map{
+				"message": "username is used",
+			})
+		}
+
+		return c.JSON(fiber.Map{
+			"message": "username is unused",
+		})
+	}
+
+	c.Status(http.StatusBadRequest)
+	return c.JSON(fiber.Map{
+		"message": "invalid data",
 	})
 }

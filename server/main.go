@@ -50,6 +50,7 @@ func main() {
 	api.Get("/accounts", accountHandler.LoginAuth)
 	api.Post("/accounts/register", accountHandler.CreateAccount)
 	api.Get("/accounts/:id", accountHandler.GetAccount)
+	api.Get("/validate", accountHandler.ValidateRegisterForm)
 
 	api.Post("/login", accountHandler.Login)
 	api.Post("/logout", accountHandler.Logout)

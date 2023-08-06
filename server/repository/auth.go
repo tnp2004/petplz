@@ -12,12 +12,11 @@ import (
 
 func (r accountRepositoryDB) Login(email, password string) (*Account, error) {
 
-	coll := r.db.Database("Renter").Collection("Account")
+	coll := r.db.Database("Petplz").Collection("Account")
 	var result Account
 	err := coll.FindOne(context.TODO(), bson.D{{Key: "email", Value: email}}).Decode(&result)
 	if err == mongo.ErrNoDocuments {
-		fmt.Printf("No document was found with the email %s\n", email)
-		return nil, err
+		return nil, fmt.Errorf("no document was found with the email %s", email)
 	}
 	if err != nil {
 		return nil, err

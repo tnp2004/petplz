@@ -1,12 +1,18 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { authenticated } from '../stores/auth';
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
+	import type { Account } from '../../interfaces';
 
 	let image: string;
 	let auth: boolean;
+	// export let data: Account;
 	authenticated.subscribe((isAuth) => (auth = isAuth));
+
+	const refresh = () => {
+		invalidate(`${PUBLIC_SERVER_URL}/api/accounts`)
+	}
 
 	onMount(async () => {
 		const response = await fetch(`${PUBLIC_SERVER_URL}/api/accounts`, {
@@ -16,7 +22,6 @@
 
 		if (response.ok) {
 			const data = await response.json();
-			console.log(data)
 			image = data.image_uri
 		}
 	});
@@ -33,6 +38,7 @@
 </script>
 
 <div class="navbar bg-base-100 shadow-sm">
+	<!-- {JSON.stringify(data)} -->
 	<div class="navbar-start">
 		<div class="dropdown">
 			<label tabIndex="0" for="hamburger" class="btn btn-ghost btn-circle">

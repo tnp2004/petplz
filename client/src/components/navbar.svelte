@@ -37,7 +37,7 @@
 	};
 </script>
 
-<div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-100 shadow-sm mb-8">
 	<!-- {JSON.stringify(data)} -->
 	<div class="navbar-start">
 		<div class="dropdown">

@@ -102,7 +102,7 @@
 	const submit = async () => {
 		const canSubmit = await usernameOkay() && await emailOkay() && passwordOkay() && ageOkay() && genderOkay();
 		if (canSubmit) {
-			await fetch(`${PUBLIC_SERVER_URL}/api/accounts/register`, {
+			const response =  await fetch(`${PUBLIC_SERVER_URL}/api/accounts/register`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -114,13 +114,14 @@
 				})
 			});
 
-			await goto('/login');
-			return;
+			if (response.ok) {
+				await goto('/login');
+			}
 		}
 	};
 </script>
 
-<div class="flex my-20">
+<div class="flex mb-5">
 	<form
 		on:submit|preventDefault={submit}
 		class="m-auto drop-shadow-xl bg-white rounded py-2 px-5 text-slate-700"
@@ -151,7 +152,7 @@
 			Register
 		</h1>
 		<div class="my-5">
-			<div class="my-2 w-72">
+			<div class="my-2 w-[304px]">
 				<label for="username">
 					Username
 					<span hidden={!usernameErrMsg} class="text-red-600">*{usernameErrMsg}</span>

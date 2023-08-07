@@ -27,7 +27,7 @@
 	});
 
 	const logout = async () => {
-		await fetch('http://localhost:3000/api/logout', {
+		await fetch(`${PUBLIC_SERVER_URL}/api/logout`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			credentials: 'include'

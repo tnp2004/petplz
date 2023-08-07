@@ -6,3 +6,7 @@
 * {
     font-family: 'Mali', cursive;
 }
+
+.error-input {
+    @apply border-rose-400 focus:outline-none focus:border-rose-500
+}

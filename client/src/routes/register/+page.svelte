@@ -6,6 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { PUBLIC_RECAPTCHA_SITE_KEY, PUBLIC_SERVER_URL } from '$env/static/public';
 
+	// Value
 	let username: string;
 	let email: string;
 	let password: string;
@@ -13,26 +14,93 @@
 	let age: number;
 	let gender: string;
 
-	$: usernameErr = !checkUsername();
-	$: emailErr = !checkEmail();
-	$: passwordErr = !comparePassword();
-	$: ageErr = age <= 0;
-	$: genderErr = gender === '';
+	// Error message
+	let usernameErrMsg: string;
+	let emailErrMsg: string;
+	let passwordErrMsg: string;
+	let confirmPasswordErrMsg: string;
+	let ageErrMsg: string;
+	let genderErrMsg: string;
 
-	const checkUsername = (): boolean => {
-		return true;
+	const usernameOkay = async (): Promise<boolean> => {
+
+		if (!username) {
+			usernameErrMsg = "username can't empty"
+			return false
+		}
+
+		const response = await fetch(`${PUBLIC_SERVER_URL}/api/validate?username=${username}`)
+
+		if (!response.ok) {
+			usernameErrMsg = "username already exist"
+			return false;
+		}
+
+		usernameErrMsg = ""
+		return true
 	};
 
-	const checkEmail = (): boolean => {
-		return true;
+	const emailOkay = async (): Promise<boolean> => {
+
+		if (!email) {
+			emailErrMsg = "email can't empty"
+			return false
+		}
+
+		const response = await fetch(`${PUBLIC_SERVER_URL}/api/validate?email=${email}`)
+
+		if (!response.ok) {
+			emailErrMsg = "email already exist"
+			return false;
+		}
+
+		emailErrMsg = ""
+		return true
 	};
 
-	const comparePassword = (): boolean => {
-		return password === confirmPassword;
+	const passwordOkay = (): boolean => {
+
+		if (!password) {
+			passwordErrMsg = "password can't empty"
+			return false
+		}else if (password.length < 5) {
+			passwordErrMsg = "password should have at least 5 characters"
+			return false
+		} else {
+			passwordErrMsg = ""
+		}
+		
+		if (password === confirmPassword) {
+			confirmPasswordErrMsg = ""
+			return true
+		}
+
+		confirmPasswordErrMsg = "password do not match"
+		return false;
 	};
+
+	const ageOkay = (): boolean => {
+		if (age) {
+			ageErrMsg = ""
+			return true
+		}
+
+		ageErrMsg = "age can't empty"
+		return false
+	}
+
+	const genderOkay = (): boolean => {
+		if (gender) {
+			genderErrMsg = ""
+			return true
+		}
+
+		genderErrMsg = "please pick the choice"
+		return false
+	}
 
 	const submit = async () => {
-		const canSubmit = !usernameErr && !emailErr && !passwordErr && !ageErr && !genderErr;
+		const canSubmit = await usernameOkay() && await emailOkay() && passwordOkay() && ageOkay() && genderOkay();
 		if (canSubmit) {
 			await fetch(`${PUBLIC_SERVER_URL}/api/accounts/register`, {
 				method: 'POST',
@@ -86,50 +154,47 @@
 			<div class="my-2 w-72">
 				<label for="username">
 					Username
-					<span hidden={!usernameErr} class="text-red-600">*username's in used</span>
+					<span hidden={!usernameErrMsg} class="text-red-600">*{usernameErrMsg}</span>
 					<input
-						on:change={() => (usernameErr = !checkUsername())}
 						bind:value={username}
-						class="border-2 rounded-sm w-full px-1 my-2 h-9"
+						class={`border-2 rounded-sm w-full px-1 my-2 h-9 ${usernameErrMsg ? "error-input": ""}`}
 						type="text"
 					/>
 				</label>
 				<label for="email">
 					Email
-					<span hidden={!emailErr} class="text-red-600">*email already used</span>
+					<span hidden={!emailErrMsg} class="text-red-600">*{emailErrMsg}</span>
 					<input
-						on:change={() => (emailErr = !checkEmail())}
 						bind:value={email}
-						class="border-2 rounded-sm w-full px-1 my-2 h-9"
+						class={`border-2 rounded-sm w-full px-1 my-2 h-9 ${emailErrMsg ? "error-input": ""}`}
 						type="email"
 					/>
 				</label>
 				<label for="password">
 					Password
+					<span hidden={!passwordErrMsg} class="text-red-600">*{passwordErrMsg}</span>
 					<input
-						on:change={() => (passwordErr = !comparePassword())}
 						bind:value={password}
-						class="border-2 rounded-sm w-full px-1 my-2 h-9"
+						class={`border-2 rounded-sm w-full px-1 my-2 h-9 ${passwordErrMsg ? "error-input": ""}`}
 						type="password"
 					/>
 				</label>
 				<label for="confirm-password">
 					Confirm Password
-					<span hidden={!passwordErr} class="text-red-600">*password do not match</span>
+					<span hidden={!confirmPasswordErrMsg} class="text-red-600">*{confirmPasswordErrMsg}</span>
 					<input
-						on:change={() => (passwordErr = !comparePassword())}
 						bind:value={confirmPassword}
-						class="border-2 rounded-sm w-full px-1 my-2 h-9"
+						class={`border-2 rounded-sm w-full px-1 my-2 h-9 ${confirmPasswordErrMsg ? "error-input": ""}`}
 						type="password"
 					/>
 				</label>
 				<label for="age">
 					Age
-					<span hidden={!ageErr} class="text-red-600">*invalid age</span>
-					<input bind:value={age} class="border-2 rounded-sm w-full my-2 px-1 h-9" type="number" />
+					<span hidden={!ageErrMsg} class="text-red-600">*{ageErrMsg}</span>
+					<input bind:value={age} class={`border-2 rounded-sm w-full px-1 my-2 h-9 ${ageErrMsg ? "error-input": ""}`} type="number" />
 				</label>
 
-				<span hidden={!genderErr} class="text-red-600">*please pick the choice</span>
+				<span hidden={!genderErrMsg} class="text-red-600">*{genderErrMsg}</span>
 				<div class="flex gap-2 my-2 justify-between">
 					<button
 						on:click={() => (gender = 'male')}

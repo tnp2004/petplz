@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -38,7 +39,7 @@ func main() {
 
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:5173",
+		AllowOrigins:     os.Getenv("CLIENT_URL"),
 		AllowHeaders:     "Origin, Content-Type, Accept",
 		AllowCredentials: true,
 	}))
@@ -48,14 +49,17 @@ func main() {
 	api.Get("/", accountHandler.Greeting)
 
 	api.Get("/accounts", accountHandler.LoginAuth)
-	api.Post("/accounts/register", accountHandler.CreateAccount)
 	api.Get("/accounts/:id", accountHandler.GetAccount)
+	api.Post("/accounts/register", accountHandler.CreateAccount)
+
+	// validate email and username
 	api.Get("/validate", accountHandler.ValidateRegisterForm)
 
 	api.Post("/login", accountHandler.Login)
 	api.Post("/logout", accountHandler.Logout)
 
-	app.Listen(":3000")
+	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
+	app.Listen(port)
 }
 
 func initDatabase(uri string) *mongo.Client {

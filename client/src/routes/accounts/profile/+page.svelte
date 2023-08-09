@@ -3,10 +3,8 @@
 	import { authenticated } from '../../../stores/auth';
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
 	import type { Account } from '../../../../interfaces';
-	import type { PageData } from './$types';
 
 	let accountData: Account;
-    export let data: PageData;
 
 	onMount(async () => {
 		const response = await fetch(`${PUBLIC_SERVER_URL}/api/accounts`, {
@@ -23,10 +21,9 @@
 	});
 </script>
 
-{JSON.stringify(data)}
 {#if accountData}
-	<div class="w-fit px-5 mx-auto my-10">
-        <div class="text-xl my-20">
+	<div class="w-fit px-5 mx-auto">
+        <div class="text-xl">
             <div class="text-center my-3">
                 <label class="font-bold text-4xl" for="profile">Profile</label>
             </div>

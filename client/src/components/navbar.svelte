@@ -1,13 +1,11 @@
 <script lang="ts">
-	import { goto, invalidate } from '$app/navigation';
+	import { goto, invalidate, invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { authenticated } from '../stores/auth';
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
-	import type { Account } from '../../interfaces';
 
 	let image: string;
 	let auth: boolean;
-	// export let data: Account;
 	authenticated.subscribe((isAuth) => (auth = isAuth));
 
 	const refresh = () => {
@@ -60,6 +58,7 @@
 				tabIndex="0"
 				class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
 			>
+				<li><a href="/stores">Stores</a></li>
 				<li><a href="/login">Login</a></li>
 				<li><a href="/register">Register</a></li>
 			</ul>

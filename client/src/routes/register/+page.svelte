@@ -25,14 +25,14 @@
 	const usernameOkay = async (): Promise<boolean> => {
 
 		if (!username) {
-			usernameErrMsg = "username can't empty"
+			usernameErrMsg = "กรุณากรอกชื่อผู้ใช้"
 			return false
 		}
 
 		const response = await fetch(`${PUBLIC_SERVER_URL}/api/validate?username=${username}`)
 
 		if (!response.ok) {
-			usernameErrMsg = "username already exist"
+			usernameErrMsg = "ชื่อนี้ถูกใช้ไปแล้ว"
 			return false;
 		}
 
@@ -43,14 +43,14 @@
 	const emailOkay = async (): Promise<boolean> => {
 
 		if (!email) {
-			emailErrMsg = "email can't empty"
+			emailErrMsg = "กรุณากรอกอีเมล"
 			return false
 		}
 
 		const response = await fetch(`${PUBLIC_SERVER_URL}/api/validate?email=${email}`)
 
 		if (!response.ok) {
-			emailErrMsg = "email already exist"
+			emailErrMsg = "อีเมลนี้ถูกใช้ไปแล้ว"
 			return false;
 		}
 
@@ -61,10 +61,10 @@
 	const passwordOkay = (): boolean => {
 
 		if (!password) {
-			passwordErrMsg = "password can't empty"
+			passwordErrMsg = "กรุณากรอกรหัสผ่าน"
 			return false
 		}else if (password.length < 5) {
-			passwordErrMsg = "password should have at least 5 characters"
+			passwordErrMsg = "รหัสผ่านต้องมีอย่างน้อย 5 ตัว"
 			return false
 		} else {
 			passwordErrMsg = ""
@@ -75,7 +75,7 @@
 			return true
 		}
 
-		confirmPasswordErrMsg = "password do not match"
+		confirmPasswordErrMsg = "รหัสผ่านไม่ตรงกัน"
 		return false;
 	};
 
@@ -85,7 +85,7 @@
 			return true
 		}
 
-		ageErrMsg = "age can't empty"
+		ageErrMsg = "กรุณากรอกอายุ"
 		return false
 	}
 
@@ -95,7 +95,7 @@
 			return true
 		}
 
-		genderErrMsg = "please pick the choice"
+		genderErrMsg = "กรุณาเลือกเพศ"
 		return false
 	}
 
@@ -149,12 +149,12 @@
 					style="fill:#008ad0"
 				/></svg
 			>
-			Register
+			สมัครสมาชิก
 		</h1>
 		<div class="my-5">
 			<div class="my-2 w-[304px]">
 				<label for="username">
-					Username
+					ชื่อผู้ใช้
 					<span hidden={!usernameErrMsg} class="text-red-600">*{usernameErrMsg}</span>
 					<input
 						bind:value={username}
@@ -163,7 +163,7 @@
 					/>
 				</label>
 				<label for="email">
-					Email
+					อีเมล
 					<span hidden={!emailErrMsg} class="text-red-600">*{emailErrMsg}</span>
 					<input
 						bind:value={email}
@@ -172,7 +172,7 @@
 					/>
 				</label>
 				<label for="password">
-					Password
+					รหัสผ่าน
 					<span hidden={!passwordErrMsg} class="text-red-600">*{passwordErrMsg}</span>
 					<input
 						bind:value={password}
@@ -181,7 +181,7 @@
 					/>
 				</label>
 				<label for="confirm-password">
-					Confirm Password
+					ยืนยันรหัสผ่าน
 					<span hidden={!confirmPasswordErrMsg} class="text-red-600">*{confirmPasswordErrMsg}</span>
 					<input
 						bind:value={confirmPassword}
@@ -190,7 +190,7 @@
 					/>
 				</label>
 				<label for="age">
-					Age
+					อายุ
 					<span hidden={!ageErrMsg} class="text-red-600">*{ageErrMsg}</span>
 					<input bind:value={age} class={`border-2 rounded-sm w-full px-1 my-2 h-9 ${ageErrMsg ? "error-input": ""}`} type="number" />
 				</label>
@@ -209,7 +209,7 @@
 							checked={gender == 'male'}
 							required
 						/>
-						<span class="w-full">Male</span>
+						<span class="w-full">ชาย</span>
 					</button>
 					<button
 						on:click={() => (gender = 'female')}
@@ -222,7 +222,7 @@
 							value="female"
 							checked={gender == 'female'}
 						/>
-						<span class="w-full">Female</span>
+						<span class="w-full">หญิง</span>
 					</button>
 					<button
 						on:click={() => (gender = 'other')}
@@ -235,7 +235,7 @@
 							value="other"
 							checked={gender == 'other'}
 						/>
-						<span class="w-full">Other</span>
+						<span class="w-full">อื่นๆ</span>
 					</button>
 				</div>
 			</div>
@@ -243,7 +243,7 @@
 			<button type="submit" class="font-bold w-full btn btn-success rounded">SIGN UP</button>
 		</div>
 		<div class="text-center text-slate-400">
-			<a class="text-slate-700/50" href="/login">already have an account ?</a>
+			<a class="text-slate-700/50" href="/login">มีบัญชีแล้วงั้นหรอ ?</a>
 		</div>
 	</form>
 </div>

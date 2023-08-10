@@ -58,9 +58,9 @@
 				tabIndex="0"
 				class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
 			>
-				<li><a href="/stores">Stores</a></li>
-				<li><a href="/login">Login</a></li>
-				<li><a href="/register">Register</a></li>
+				<li><a href="/stores">ร้านค้า</a></li>
+				<li><a href="/login">เข้าสู่ระบบ</a></li>
+				<li><a href="/register">สมัครสมาชิก</a></li>
 			</ul>
 		</div>
 	</div>
@@ -99,15 +99,15 @@
 				>
 					<li>
 						<a href="/accounts/profile" class="justify-between">
-							Profile
-							<span class="badge">New</span>
+							โปรไฟล์
+							<span class="badge">ใหม่</span>
 						</a>
 					</li>
-					<li><button on:click={logout}>Logout</button></li>
+					<li><button on:click={logout}>ออกจากระบบ</button></li>
 				</ul>
 			</div>
 		{:else}
-			<a class="btn btn-ghost" href="/login">login</a>
+			<a class="btn btn-ghost" href="/login">เข้าสู่ระบบ</a>
 		{/if}
 	</div>
 </div>

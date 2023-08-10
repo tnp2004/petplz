@@ -12,7 +12,7 @@ type NewAccount struct {
 }
 
 type AccountResponse struct {
-	AccountID primitive.ObjectID `json:"accountId" bson:"_id"`
+	AccountID primitive.ObjectID `json:"account_id" bson:"_id"`
 	Username  string             `json:"username"`
 	Email     string             `json:"email"`
 	Gender    string             `json:"gender"`

@@ -4,6 +4,12 @@
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
 	import type { Account } from '../../../../interfaces';
 
+    var gender = {
+        "male": "ชาย",
+        "female": "หญิง",
+        "other": "อื่นๆ"
+    }
+
 	let accountData: Account;
 
 	onMount(async () => {
@@ -32,25 +38,25 @@
                 <img src={accountData.image_uri} alt="profile-image" />
             </div>
             <div class="flex justify-between">
-                <label class="font-bold w-1/2" for="username">Username</label>
+                <label class="font-bold w-1/2" for="username">ชื่อผู้ใช้</label>
                 <div class="w-1/2">
                     {accountData.username}
                 </div>
             </div>
             <div class="flex justify-between">
-                <label class="font-bold w-1/2" for="email">Email</label>
+                <label class="font-bold w-1/2" for="email">อีเมล</label>
                 <div class="w-1/2">
                     {accountData.email}
                 </div>
             </div>
             <div class="flex justify-between">
-                <label class="font-bold w-1/2" for="gender">Gender</label>
+                <label class="font-bold w-1/2" for="gender">เพศ</label>
                 <div class="w-1/2">
-                    {accountData.gender}
+                    {gender[accountData.gender]}
                 </div>
             </div>
             <div class="flex justify-between">
-                <label class="font-bold w-1/2" for="age">Age</label>
+                <label class="font-bold w-1/2" for="age">อายุ</label>
                 <div class="w-1/2">
                     {accountData.age}
                 </div>

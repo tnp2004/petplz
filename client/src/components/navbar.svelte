@@ -3,24 +3,24 @@
 	import { onMount } from 'svelte';
 	import { authenticated } from '../stores/auth';
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
+	import type { JWT } from '../../interfaces';
 
 	let image: string;
 	let auth: boolean;
+	export let data: JWT;
 	authenticated.subscribe((isAuth) => (auth = isAuth));
 
-	const refresh = () => {
-		invalidate(`${PUBLIC_SERVER_URL}/api/accounts`)
-	}
-
 	onMount(async () => {
-		const response = await fetch(`${PUBLIC_SERVER_URL}/api/accounts`, {
-			headers: { 'Content-Type': 'application/json' },
-			credentials: 'include'
-		});
+		if (data.jwt) {
+			const response = await fetch(`${PUBLIC_SERVER_URL}/api/accounts`, {
+				headers: { 'Content-Type': 'application/json' },
+				credentials: 'include'
+			});
 
-		if (response.ok) {
-			const data = await response.json();
-			image = data.image_uri
+			if (response.ok) {
+				const data = await response.json();
+				image = data.image_uri;
+			}
 		}
 	});
 
@@ -31,12 +31,11 @@
 			credentials: 'include'
 		});
 
-    await goto("/login")
+		await goto('/login');
 	};
 </script>
 
-<div class="navbar bg-base-100 shadow-sm mb-8">
-	<!-- {JSON.stringify(data)} -->
+<div class="navbar bg-base-100 shadow-sm mb-8 text-slate-700">
 	<div class="navbar-start">
 		<div class="dropdown">
 			<label tabIndex="0" for="hamburger" class="btn btn-ghost btn-circle">
@@ -59,13 +58,14 @@
 				class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
 			>
 				<li><a href="/stores">ร้านค้า</a></li>
-				<li><a href="/login">เข้าสู่ระบบ</a></li>
-				<li><a href="/register">สมัครสมาชิก</a></li>
+				<li><a href="/stores/register">ลงทะเบียน</a></li>
 			</ul>
 		</div>
 	</div>
-	<div class="navbar-center">
-		<a href="/" class="btn btn-ghost normal-case text-xl">petplz</a>
+	<div class="navbar-center gap-2">
+		<div class="menu menu-horizontal px-1 gap-1">
+			<a href="/" class="btn btn-ghost normal-case text-2xl">petplz</a>
+		</div>
 	</div>
 	<div class="navbar-end gap-1">
 		<button class="btn btn-ghost btn-circle">
@@ -88,9 +88,7 @@
 			<div class="dropdown dropdown-end">
 				<label tabIndex="0" for="account" class="btn btn-ghost btn-circle avatar">
 					<div class="w-10 rounded-full">
-						<img alt="user-icon"
-							src={image}
-						/>
+						<img alt="user-icon" src={image} />
 					</div>
 				</label>
 				<ul

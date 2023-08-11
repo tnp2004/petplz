@@ -7,3 +7,7 @@ export interface Account {
     money: number;
     image_uri: string;
 }
+
+export interface JWT {
+    jwt: string
+}

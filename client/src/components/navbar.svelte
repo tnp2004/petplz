@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { goto, invalidate, invalidateAll } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { authenticated } from '../stores/auth';
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
-	import type { JWT } from '../../interfaces';
+	import type { LayoutData } from '../routes/$types';
 
 	let image: string;
 	let auth: boolean;
-	export let data: JWT;
+	export let data: LayoutData;
 	authenticated.subscribe((isAuth) => (auth = isAuth));
 
 	onMount(async () => {
@@ -24,13 +24,17 @@
 		}
 	});
 
+	const refresh = () => {
+		invalidate(`${PUBLIC_SERVER_URL}/api/accounts`)
+	}
+	
 	const logout = async () => {
 		await fetch(`${PUBLIC_SERVER_URL}/api/logout`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			credentials: 'include'
 		});
-
+		await refresh()
 		await goto('/login');
 	};
 </script>

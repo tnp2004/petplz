@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { JWT } from '../../interfaces';
 	import '../app.css';
 	import Navbar from '../components/navbar.svelte';
-	export let data: JWT;
+	import type { LayoutData } from './$types';
+	
+	export let data: LayoutData;
 </script>
 
 <main>

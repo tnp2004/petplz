@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { authenticated } from '../../../stores/auth';
-	import { PUBLIC_SERVER_URL } from '$env/static/public';
 	import type { Account } from '../../../../interfaces';
+	import type { PageData } from './$types';
+    export let data: PageData;
 
     var gender = {
         "male": "ชาย",
@@ -10,21 +9,7 @@
         "other": "อื่นๆ"
     }
 
-	let accountData: Account;
-
-	onMount(async () => {
-		const response = await fetch(`${PUBLIC_SERVER_URL}/api/accounts`, {
-			headers: { 'Content-Type': 'application/json' },
-			credentials: 'include'
-		});
-
-		const resOkay = response.ok;
-		authenticated.set(resOkay);
-		if (response.ok) {
-			const data = await response.json();
-			accountData = data;
-		}
-	});
+	let accountData: Account = data.account;
 </script>
 
 {#if accountData}

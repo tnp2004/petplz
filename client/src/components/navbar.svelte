@@ -5,13 +5,14 @@
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
 	import type { LayoutData } from '../routes/$types';
 
-	let image: string;
 	let auth: boolean;
 	export let data: LayoutData;
+	let image: string;
+	console.log(data)
 	authenticated.subscribe((isAuth) => (auth = isAuth));
 
 	onMount(async () => {
-		if (data.jwt) {
+		if (auth) {
 			const response = await fetch(`${PUBLIC_SERVER_URL}/api/accounts`, {
 				headers: { 'Content-Type': 'application/json' },
 				credentials: 'include'

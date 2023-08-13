@@ -5,11 +5,14 @@
 	import { PUBLIC_SERVER_URL } from '$env/static/public';
 	import type { LayoutData } from '../routes/$types';
 
+	// authentication
 	let auth: boolean;
-	export let data: LayoutData;
-	let image: string;
-	console.log(data)
 	authenticated.subscribe((isAuth) => (auth = isAuth));
+
+	// account data
+	export let data: LayoutData;
+	let image = "";
+	console.log(data)
 
 	onMount(async () => {
 		if (auth) {
